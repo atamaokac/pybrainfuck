@@ -2,6 +2,8 @@
 # version 1.1 - Bugfix for nested loops.
 import sys
 commands = set('><+-.,[]?')
+cell_bits = 8
+cell_mod = 1 << cell_bits
 source_filename = sys.argv[1]
 memory = [0]
 pointer = 0
@@ -45,10 +47,10 @@ while here < len(source):
             pointer -= 1
     elif s == '+':
         memory[pointer] += 1
-        memory[pointer] %= 256
+        memory[pointer] %= cell_mod
     elif s == '-':
         memory[pointer] -= 1
-        memory[pointer] %= 256
+        memory[pointer] %= cell_mod
     elif s == '.':
         print(chr(memory[pointer]), end='')
     elif s == ',':
