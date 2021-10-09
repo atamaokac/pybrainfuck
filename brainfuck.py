@@ -23,11 +23,11 @@ with open(source_filename) as f:
                         loop_pair[here] = there
                         loop_pair[there] = here
                     else:
-                        print('Error: Error: Encountered ] without [.', file=sys.stderr)
+                        print('Error: Encountered ] without [.', file=sys.stderr)
                         exit()
                 here += 1
     if loop_stack:
-        print('Error: Error: Encountered [ without ].', file=sys.stderr)
+        print('Error: Encountered [ without ].', file=sys.stderr)
         exit()
 
 here = 0
