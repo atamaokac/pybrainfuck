@@ -23,11 +23,11 @@ with open(source_filename) as f:
                         loop_pair[here] = there
                         loop_pair[there] = here
                     else:
-                        print('Error: Encountered ] without [.', file=sys.stderr)
+                        print('Error: Encountered ] without [, at {}.'.format(here), file=sys.stderr)
                         exit()
                 here += 1
     if loop_stack:
-        print('Error: Encountered [ without ].', file=sys.stderr)
+        print('Error: Encountered [ without ], at {}.'.format(','.join(loop_stack)), file=sys.stderr)
         exit()
 
 here = 0
@@ -39,7 +39,7 @@ while here < len(source):
         pointer += 1
     elif s == '<':
         if pointer == 0:
-            print('Error: Pointer moved to illegal region, at {}-th command.'.format(here), file=sys.stderr)
+            print('Error: Pointer moved to illegal region, at {}.'.format(here), file=sys.stderr)
             exit()
         else:
             pointer -= 1
@@ -56,7 +56,7 @@ while here < len(source):
             try:
                 stdin_line = list(input().encode())[::-1]
             except:
-                print('Error: Unexpected EOF in the input.', file=sys.stderr)
+                print('Error: Unexpected EOF in the input, at {}.'.format(here), file=sys.stderr)
                 exit()
         memory[pointer] = stdin_line.pop()
     elif s == '[':
