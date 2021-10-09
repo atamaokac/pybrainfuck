@@ -20,7 +20,7 @@ while here < len(source):
         pointer += 1
     elif s == '<':
         if pointer == 0:
-            print('Error: Pointer moved to illegal region.', file=sys.stderr)
+            print('Error: Pointer moved to illegal region, at {}-th command.'.format(here), file=sys.stderr)
             exit()
         else:
             pointer -= 1
