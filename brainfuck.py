@@ -6,11 +6,29 @@ memory = [0]
 pointer = 0
 source = []
 stdin_line = []
+loop_stack = []
+loop_pair = dict()
+here = 0
 with open(source_filename) as f:
     while line := f.readline():
         for s in line:
             if s in commands:
                 source.append(s)
+                if s == '[':
+                    loop_stack.append(here)
+                elif s == ']':
+                    if loop_stack:
+                        there = loop_stack.pop()
+                        loop_pair[here] = there
+                        loop_pair[there] = here
+                    else:
+                        print('Error: Error: Encountered ] without [.', file=sys.stderr)
+                        exit()
+                here += 1
+    if loop_stack:
+        print('Error: Error: Encountered [ without ].', file=sys.stderr)
+        exit()
+
 here = 0
 while here < len(source):
     s = source[here]
@@ -42,19 +60,11 @@ while here < len(source):
         memory[pointer] = stdin_line.pop()
     elif s == '[':
         if memory[pointer] == 0:
-            while here < len(source) and source[here] != ']':
-                here += 1
-            if here >= len(source):
-                print('Error: Encountered [ without ].', file=sys.stderr)
-                exit()
+            here = loop_pair[here]
             continue
     elif s == ']':
         if memory[pointer] != 0:
-            while here >= 0 and source[here] != '[':
-                here -= 1
-            if here < 0:
-                print('Error: Encountered ] without [.', file=sys.stderr)
-                exit()
+            here = loop_pair[here]
             continue
     elif s == '?':
         print(memory, ', pointer:{}'.format(pointer), ', command:{}'.format(here), file=sys.stderr)
