@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 import sys
-commands = set('><+-.,[]')
+commands = set('><+-.,[]?')
 source_filename = sys.argv[1]
 memory = [0]
 pointer = 0
@@ -56,4 +56,6 @@ while here < len(source):
                 print('Error: Encountered ] without [.', file=sys.stderr)
                 exit()
             continue
+    elif s == '?':
+        print(memory, ', pointer:{}'.format(pointer), ', command:{}'.format(here), file=sys.stderr)
     here += 1
