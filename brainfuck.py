@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# version 1.1 - Bugfix for nested loops.
 import sys
 commands = set('><+-.,[]?')
 source_filename = sys.argv[1]
